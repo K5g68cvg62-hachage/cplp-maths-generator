@@ -1,0 +1,793 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tirage sujet maths CPLP</title>
+  <style>
+    :root {
+      --ink: #17202a;
+      --muted: #5f6b7a;
+      --line: #d7dde5;
+      --paper: #f7f8fa;
+      --panel: #ffffff;
+      --accent: #0f766e;
+      --accent-dark: #0b5f59;
+      --warm: #b45309;
+      --soft: #e9f5f3;
+      --danger: #9f1239;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    header {
+      border-bottom: 1px solid var(--line);
+      background: #ffffff;
+    }
+
+    .wrap {
+      width: min(1120px, calc(100vw - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      min-height: 88px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 18px 0;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(26px, 4vw, 42px);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .counter {
+      min-width: 156px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      text-align: right;
+      background: #fbfcfd;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .counter strong {
+      display: block;
+      color: var(--ink);
+      font-size: 28px;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    main {
+      padding: 28px 0 44px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    aside,
+    .subject {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    aside {
+      padding: 16px;
+      position: sticky;
+      top: 16px;
+    }
+
+    .section-title {
+      margin: 0 0 10px;
+      font-size: 13px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-weight: 700;
+    }
+
+    .filters {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    label.option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 11px;
+      cursor: pointer;
+      background: #fff;
+      min-height: 42px;
+    }
+
+    label.option:hover {
+      border-color: #9fb4bd;
+    }
+
+    input[type="radio"],
+    input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--accent);
+    }
+
+    .actions {
+      display: grid;
+      gap: 10px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      min-height: 46px;
+      padding: 0 16px;
+      font-size: 15px;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .primary {
+      color: white;
+      background: var(--accent);
+    }
+
+    .primary:hover {
+      background: var(--accent-dark);
+    }
+
+    .secondary {
+      color: var(--ink);
+      background: #eef1f5;
+      border: 1px solid #d4dbe4;
+    }
+
+    .subject {
+      min-height: 560px;
+      padding: 28px;
+      display: grid;
+      gap: 22px;
+      align-content: start;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--accent-dark);
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .badge.group {
+      background: #fff7ed;
+      color: var(--warm);
+    }
+
+    .badge.source {
+      background: #f2f4f7;
+      color: #475467;
+    }
+
+    .subject h2 {
+      margin: 0;
+      font-size: clamp(27px, 3.2vw, 43px);
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    .theme {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.45;
+    }
+
+    .prompt {
+      border-left: 5px solid var(--accent);
+      padding: 18px 20px;
+      background: #f9fbfb;
+      font-size: 20px;
+      line-height: 1.45;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .mini {
+      border-top: 1px solid var(--line);
+      padding-top: 16px;
+    }
+
+    .mini h3 {
+      margin: 0 0 10px;
+      font-size: 16px;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 18px;
+      color: #344054;
+      line-height: 1.55;
+    }
+
+    li + li {
+      margin-top: 5px;
+    }
+
+    .sources {
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .sources a {
+      color: var(--accent-dark);
+    }
+
+    .empty {
+      color: var(--danger);
+      font-weight: 700;
+    }
+
+    @media (max-width: 820px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .counter {
+        text-align: left;
+        width: 100%;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      aside {
+        position: static;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .subject {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap topbar">
+      <div>
+        <h1>Tirage sujet maths CPLP</h1>
+        <p class="subtitle">Banque de sujets construite √† partir des programmes officiels de math√©matiques en bac professionnel.</p>
+      </div>
+      <div class="counter">
+        <strong id="subjectCount">0</strong>
+        sujets disponibles
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap layout">
+      <aside>
+        <p class="section-title">Niveau</p>
+        <div class="filters" id="levelFilters"></div>
+
+        <p class="section-title">Familles</p>
+        <div class="filters" id="themeFilters"></div>
+
+        <div class="actions">
+          <button class="primary" id="drawButton" type="button">Tirer un sujet</button>
+          <button class="secondary" id="copyButton" type="button">Copier le sujet</button>
+        </div>
+      </aside>
+
+      <section class="subject" aria-live="polite">
+        <div class="badges" id="badges"></div>
+        <div>
+          <h2 id="title">Pr√™t pour un tirage</h2>
+          <p class="theme" id="theme">Choisis un niveau, garde ou retire des familles, puis lance un sujet.</p>
+        </div>
+        <div class="prompt" id="prompt">Le tirage affichera un sujet, le niveau associ√©, le th√®me du programme et des pistes de traitement.</div>
+        <div class="grid">
+          <div class="mini">
+            <h3>Attendus</h3>
+            <ul id="expectations"></ul>
+          </div>
+          <div class="mini">
+            <h3>Support possible</h3>
+            <ul id="supports"></ul>
+          </div>
+        </div>
+        <div class="sources" id="source"></div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const sources = {
+      seconde: {
+        label: "BO seconde professionnelle, annexe 2019",
+        url: "https://cache.media.education.gouv.fr/file/SP5-MEN-11-4-2019/26/8/spe628_annexe_1105268.pdf"
+      },
+      premiere: {
+        label: "BO premi√®re professionnelle, annexe 2020",
+        url: "https://mathsciencespro.fr/Bacpro1ereMaths/spe003_annexe1_1239841.pdf"
+      },
+      terminale: {
+        label: "BO terminale professionnelle, annexe 2020",
+        url: "https://mathsciencespro.fr/BacproterminaleMaths/spe003_annexe2_1239843.pdf"
+      }
+    };
+
+    const subjects = [
+      {
+        level: "Seconde professionnelle",
+        levelKey: "seconde",
+        family: "Statistique et probabilit√©s",
+        theme: "Statistique √† une variable",
+        group: "Tous groupements",
+        title: "Comparer deux s√©ries de performances",
+        prompt: "Construire une s√©ance o√π les √©l√®ves comparent deux s√©ries de temps, de consommations ou de mesures professionnelles √† l‚Äôaide d‚Äôindicateurs de position et de dispersion.",
+        expectations: ["Moyenne, m√©diane, quartiles, √©tendue ou √©cart type.", "Diagramme adapt√© et diagramme en bo√Æte.", "Interpr√©tation critique dans le contexte."],
+        supports: ["Tableur avec deux s√©ries r√©elles.", "Contexte: temps de r√©alisation, contr√¥le qualit√©, consommation d‚Äô√©nergie."]
+      },
+      {
+        level: "Seconde professionnelle",
+        levelKey: "seconde",
+        family: "Statistique et probabilit√©s",
+        theme: "Fluctuation d‚Äôune fr√©quence et probabilit√©s",
+        group: "Tous groupements",
+        title: "Simuler un contr√¥le al√©atoire",
+        prompt: "Proposer une activit√© de simulation permettant d‚Äôestimer une probabilit√© et d‚Äôobserver la stabilisation des fr√©quences quand la taille de l‚Äô√©chantillon augmente.",
+        expectations: ["Vocabulaire: issue, univers, √©v√©nement, probabilit√©.", "Simulation avec √©chantillons de taille fix√©e.", "Lien fr√©quence observ√©e et probabilit√©."],
+        supports: ["Tableur ou pseudo-code Python.", "Tirages avec remise, pi√®ces, d√©s, pi√®ces conformes/non conformes."]
+      },
+      {
+        level: "Seconde professionnelle",
+        levelKey: "seconde",
+        family: "Alg√®bre - Analyse",
+        theme: "R√©solution d‚Äôun probl√®me du premier degr√©",
+        group: "Tous groupements",
+        title: "Choisir une offre rentable",
+        prompt: "√âlaborer un probl√®me professionnel qui se mod√©lise par une √©quation ou une in√©quation du premier degr√© et qui conduit √† comparer plusieurs offres.",
+        expectations: ["Mise en √©quation ou in√©quation.", "R√©solution alg√©brique ou graphique.", "Interpr√©tation de l‚Äôintervalle solution."],
+        supports: ["Devis, forfaits, co√ªt fixe et co√ªt variable.", "Repr√©sentation graphique ou solveur."]
+      },
+      {
+        level: "Seconde professionnelle",
+        levelKey: "seconde",
+        family: "Alg√®bre - Analyse",
+        theme: "Fonctions affines, fonction carr√© et variations",
+        group: "Tous groupements",
+        title: "Mod√©liser une grandeur par une fonction",
+        prompt: "Concevoir un sujet demandant de passer d‚Äôun tableau ou d‚Äôun graphique √† une expression de fonction, puis d‚Äôexploiter images, ant√©c√©dents et variations.",
+        expectations: ["Modes de repr√©sentation d‚Äôune fonction.", "Fonction affine, pente, √©quation r√©duite.", "Lecture d‚Äôextremum ou r√©solution graphique."],
+        supports: ["Courbe issue d‚Äôun capteur, tarif, rendement.", "Grapheur ou logiciel de g√©om√©trie dynamique."]
+      },
+      {
+        level: "Seconde professionnelle",
+        levelKey: "seconde",
+        family: "Alg√®bre - Analyse",
+        theme: "Calculs commerciaux et financiers",
+        group: "Sp√©cialit√©s sans physique-chimie",
+        title: "Construire et exploiter une facture",
+        prompt: "Pr√©parer une situation o√π les √©l√®ves compl√®tent une facture ou un devis en utilisant pourcentages, coefficients multiplicateurs, remise et taxe.",
+        expectations: ["Prix, co√ªt, marge, taxe, r√©duction, taux.", "Coefficient multiplicateur et pourcentage.", "V√©rification de la coh√©rence du r√©sultat."],
+        supports: ["Facture simplifi√©e.", "Tableur de calcul commercial."]
+      },
+      {
+        level: "Seconde professionnelle",
+        levelKey: "seconde",
+        family: "G√©om√©trie",
+        theme: "Figures planes, solides usuels, grandeurs",
+        group: "Tous groupements",
+        title: "Dimensionner un objet ou un espace",
+        prompt: "Cr√©er un sujet de g√©om√©trie contextualis√© o√π les √©l√®ves calculent longueurs, aires ou volumes et discutent l‚Äôeffet d‚Äôun agrandissement ou d‚Äôune r√©duction.",
+        expectations: ["Pythagore, Thal√®s ou formules usuelles.", "Unit√©s adapt√©es et arrondis.", "Effet d‚Äô√©chelle sur longueurs, aires, volumes."],
+        supports: ["Plan d‚Äôatelier, emballage, cuve, pi√®ce technique.", "Figure cod√©e ou logiciel de g√©om√©trie."]
+      },
+      {
+        level: "Seconde professionnelle",
+        levelKey: "seconde",
+        family: "Algorithmique",
+        theme: "Variables, conditions, boucles, fonctions",
+        group: "Tous groupements",
+        title: "Automatiser un calcul m√©tier",
+        prompt: "Imaginer un algorithme simple li√© √† un probl√®me math√©matique du programme, puis demander aux √©l√®ves de le compl√©ter, le corriger ou l‚Äôexpliquer.",
+        expectations: ["Variables et affectations.", "Instructions conditionnelles ou boucles.", "Fonction informatique avec arguments et valeur renvoy√©e."],
+        supports: ["Pseudo-code ou Python.", "Calcul d‚Äôaire, simulation, recherche par balayage."]
+      },
+      {
+        level: "Premi√®re professionnelle",
+        levelKey: "premiere",
+        family: "Statistique et probabilit√©s",
+        theme: "Statistique √† deux variables et ajustement affine",
+        group: "A, B et C",
+        title: "Exploiter un nuage de points",
+        prompt: "Construire une activit√© o√π les √©l√®ves utilisent un ajustement affine pour interpoler ou extrapoler une valeur et discutent la pertinence du mod√®le.",
+        expectations: ["Nuage de points.", "Droite d‚Äôajustement par outils num√©riques.", "Coefficient de d√©termination et prudence corr√©lation/causalit√©."],
+        supports: ["Donn√©es environnementales, √©conomiques ou de production.", "Tableur-grapheur."]
+      },
+      {
+        level: "Premi√®re professionnelle",
+        levelKey: "premiere",
+        family: "Statistique et probabilit√©s",
+        theme: "Probabilit√©s, √©v√©nements et conditionnement",
+        group: "A, B et C",
+        title: "Lire un tableau crois√©",
+        prompt: "Proposer un sujet o√π un tableau crois√© d‚Äôeffectifs sert √† calculer des probabilit√©s, des fr√©quences conditionnelles et une probabilit√© conditionnelle.",
+        expectations: ["√âv√©nement contraire, r√©union, intersection.", "Relation P(A union B) = P(A) + P(B) - P(A inter B).", "Probabilit√© conditionnelle √† partir d‚Äôun tableau."],
+        supports: ["Contr√¥le qualit√©, enqu√™te, orientation, maintenance.", "Tableau d‚Äôeffectifs ou de fr√©quences."]
+      },
+      {
+        level: "Premi√®re professionnelle",
+        levelKey: "premiere",
+        family: "Alg√®bre - Analyse",
+        theme: "Suites num√©riques et suites arithm√©tiques",
+        group: "A, B et C",
+        title: "Mod√©liser une √©volution discr√®te",
+        prompt: "√âlaborer un probl√®me o√π une quantit√© √©volue par ajout constant et o√π les √©l√®ves reconnaissent ou exploitent une suite arithm√©tique.",
+        expectations: ["Notation indicielle et relation de r√©currence.", "Terme de rang donn√© et repr√©sentation (n ; un).", "Somme de premiers termes avec ou sans outil num√©rique."],
+        supports: ["Stock, production cumul√©e, √©conomies r√©guli√®res.", "Tableur ou script Python court."]
+      },
+      {
+        level: "Premi√®re professionnelle",
+        levelKey: "premiere",
+        family: "Alg√®bre - Analyse",
+        theme: "√âquations et in√©quations graphiques",
+        group: "A, B et C",
+        title: "Comparer deux mod√®les graphiquement",
+        prompt: "Pr√©parer un sujet o√π les √©l√®ves r√©solvent graphiquement f(x) = g(x) ou f(x) >= g(x) pour prendre une d√©cision contextualis√©e.",
+        expectations: ["Lecture d‚Äôintersections et d‚Äôintervalles.", "Utilisation possible d‚Äôun outil num√©rique.", "Interpr√©tation des solutions dans le contexte."],
+        supports: ["Co√ªt/recette, temp√©rature seuil, trajectoire, √©nergie.", "Deux courbes fournies ou g√©n√©r√©es."]
+      },
+      {
+        level: "Premi√®re professionnelle",
+        levelKey: "premiere",
+        family: "Alg√®bre - Analyse",
+        theme: "Fonctions polyn√¥mes de degr√© 2",
+        group: "A, B et C",
+        title: "√âtudier une parabole en contexte",
+        prompt: "Cr√©er un sujet o√π une fonction du second degr√© donn√©e sous forme factoris√©e permet d‚Äô√©tudier racines, signe et allure de la courbe.",
+        expectations: ["Racines r√©elles et forme factoris√©e.", "Sommet, axe de sym√©trie, signe du coefficient dominant.", "Lien avec une d√©cision ou une grandeur positive/n√©gative."],
+        supports: ["Hauteur, profit, signal, surface.", "Grapheur ou repr√©sentation fournie."]
+      },
+      {
+        level: "Premi√®re professionnelle",
+        levelKey: "premiere",
+        family: "Alg√®bre - Analyse",
+        theme: "D√©riv√©e et variations",
+        group: "A, B et C",
+        title: "Optimiser une grandeur",
+        prompt: "Concevoir un sujet d‚Äô√©tude de variations utilisant la d√©riv√©e d‚Äôune fonction affine, carr√© ou polyn√¥me de degr√© 2 pour d√©terminer un extremum.",
+        expectations: ["Tangente et nombre d√©riv√©.", "Calcul de d√©riv√©e simple.", "Tableau de variations et extremum."],
+        supports: ["Co√ªt, b√©n√©fice, rendement, dimensionnement.", "Courbe dynamique ou tableur."]
+      },
+      {
+        level: "Premi√®re professionnelle",
+        levelKey: "premiere",
+        family: "G√©om√©trie",
+        theme: "Espace, sections, vecteurs du plan, trigonom√©trie",
+        group: "A, B et C selon module",
+        title: "Passer du solide au plan",
+        prompt: "Pr√©parer une situation m√™lant repr√©sentation d‚Äôun solide, section par un plan ou calcul vectoriel dans un rep√®re orthogonal.",
+        expectations: ["Solides usuels et section.", "Coordonn√©es, norme ou colin√©arit√© de vecteurs.", "Lien possible avec sinus/cosinus selon groupement."],
+        supports: ["Pi√®ce 3D, assemblage, trajectoire, plan technique.", "Logiciel de g√©om√©trie dynamique ou figure fournie."]
+      },
+      {
+        level: "Terminale professionnelle",
+        levelKey: "terminale",
+        family: "Statistique et probabilit√©s",
+        theme: "Ajustements non uniquement affines",
+        group: "A, B et C",
+        title: "Choisir un mod√®le d‚Äôajustement",
+        prompt: "Construire un sujet o√π les √©l√®ves exploitent un nuage de points et un changement de variable indiqu√© pour choisir ou utiliser un ajustement pertinent.",
+        expectations: ["Interpolation ou extrapolation avec outil num√©rique.", "Ajustement non n√©cessairement affine.", "Discussion du mod√®le et du coefficient de d√©termination."],
+        supports: ["Croissance, d√©croissance, mesures semi-logarithmiques.", "Tableur, log(y), 1/x ou q^x indiqu√©."]
+      },
+      {
+        level: "Terminale professionnelle",
+        levelKey: "terminale",
+        family: "Statistique et probabilit√©s",
+        theme: "Arbres pond√©r√©s, probabilit√©s totales, ind√©pendance",
+        group: "A, B et C",
+        title: "Construire un arbre de probabilit√©s",
+        prompt: "√âlaborer une situation al√©atoire √† deux √©tapes que les √©l√®ves repr√©sentent par un arbre pond√©r√© pour calculer des probabilit√©s et tester une ind√©pendance.",
+        expectations: ["Noeuds, branches, chemins.", "Probabilit√©s conditionnelles et formule des probabilit√©s totales.", "Ind√©pendance de deux √©v√©nements."],
+        supports: ["Contr√¥le qualit√©, d√©pistage, panne, production.", "Tableau de d√©part puis arbre pond√©r√©."]
+      },
+      {
+        level: "Terminale professionnelle",
+        levelKey: "terminale",
+        family: "Alg√®bre - Analyse",
+        theme: "Suites g√©om√©triques",
+        group: "A, B et C",
+        title: "√âtudier une √©volution √† taux fixe",
+        prompt: "Proposer un sujet o√π une √©volution discr√®te √† taux constant est mod√©lis√©e par une suite g√©om√©trique et exploit√©e pour atteindre un seuil.",
+        expectations: ["Relation un+1 = un x q.", "Expression du terme de rang n et sens de variation.", "Rang √† partir duquel un seuil est franchi."],
+        supports: ["Population, valeur r√©siduelle, int√©r√™ts compos√©s, √©nergie.", "Tableur ou liste g√©n√©r√©e."]
+      },
+      {
+        level: "Terminale professionnelle",
+        levelKey: "terminale",
+        family: "Alg√®bre - Analyse",
+        theme: "Fonctions polyn√¥mes de degr√© 3",
+        group: "A, B et C",
+        title: "√âtudier une fonction cubique",
+        prompt: "Cr√©er un sujet demandant d‚Äô√©tudier une fonction polyn√¥me de degr√© 3 √† partir de sa d√©riv√©e pour d√©crire ses variations et ses extremums √©ventuels.",
+        expectations: ["Fonction cube et polyn√¥me de degr√© 3.", "D√©riv√©e et signe de la d√©riv√©e.", "Nombre de solutions de f(x) = c selon le tableau de variations."],
+        supports: ["Mod√®le de volume, profit, vitesse, signal.", "Grapheur pour racines de la d√©riv√©e si n√©cessaire."]
+      },
+      {
+        level: "Terminale professionnelle",
+        levelKey: "terminale",
+        family: "Alg√®bre - Analyse",
+        theme: "Fonctions exponentielles et logarithme d√©cimal",
+        group: "A, B et C",
+        title: "R√©soudre un probl√®me logarithmique ou exponentiel",
+        prompt: "Pr√©parer un sujet o√π une grandeur √©volue selon q^x ou o√π le logarithme d√©cimal permet de r√©soudre une √©quation ou une in√©quation contextualis√©e.",
+        expectations: ["Variations et propri√©t√©s op√©ratoires.", "R√©solution de q^x = a, log(x) = a ou in√©quations associ√©es.", "Lien avec suites g√©om√©triques ou ajustement."],
+        supports: ["Acoustique, pH simplifi√©, croissance, att√©nuation.", "Calculatrice, grapheur ou papier semi-logarithmique."]
+      },
+      {
+        level: "Terminale professionnelle",
+        levelKey: "terminale",
+        family: "Alg√®bre - Analyse",
+        theme: "Calculs commerciaux et financiers",
+        group: "Sp√©cialit√©s sans physique-chimie",
+        title: "Analyser un placement ou un emprunt",
+        prompt: "Construire un sujet sur int√©r√™ts compos√©s, dur√©e de placement, taux √©quivalent ou tableau d‚Äôamortissement.",
+        expectations: ["Formule cn = c0(1 + t)^n.", "Dur√©e, taux mensuel √©quivalent ou taux moyen.", "Lecture ou compl√©ment d‚Äôun tableau d‚Äôamortissement."],
+        supports: ["Simulation de cr√©dit, annuit√©s, √©pargne.", "Tableur financier simplifi√©."]
+      },
+      {
+        level: "Terminale professionnelle",
+        levelKey: "terminale",
+        family: "G√©om√©trie",
+        theme: "Vecteurs dans l‚Äôespace",
+        group: "Groupement B",
+        title: "Calculer dans un rep√®re de l‚Äôespace",
+        prompt: "√âlaborer un sujet o√π les √©l√®ves manipulent coordonn√©es de points et de vecteurs dans l‚Äôespace pour calculer norme, somme ou colin√©arit√©.",
+        expectations: ["Coordonn√©es cart√©siennes dans l‚Äôespace.", "Norme et somme de vecteurs.", "Vecteurs √©gaux ou colin√©aires."],
+        supports: ["Trajectoire, effort, d√©placement dans une pi√®ce 3D.", "Rep√®re orthonorm√© fourni."]
+      },
+      {
+        level: "Terminale professionnelle",
+        levelKey: "terminale",
+        family: "G√©om√©trie",
+        theme: "Trigonom√©trie et repr√©sentation de Fresnel",
+        group: "Groupement A",
+        title: "Interpr√©ter une grandeur sinuso√Ødale",
+        prompt: "Pr√©parer un sujet o√π les √©l√®ves relient une fonction sinuso√Ødale √† une repr√©sentation de Fresnel et r√©solvent une √©quation trigonom√©trique contextualis√©e.",
+        expectations: ["Lien entre a sin(omega t + phi) et la courbe.", "√âquations sin x = b ou cos x = a sur un intervalle.", "Interpr√©tation dans le contexte √©lectrique ou physique."],
+        supports: ["Tension ou intensit√© sinuso√Ødale.", "Cercle trigonom√©trique ou grapheur."]
+      },
+      {
+        level: "Terminale professionnelle",
+        levelKey: "terminale",
+        family: "Programme compl√©mentaire",
+        theme: "Calcul int√©gral",
+        group: "Poursuite d‚Äô√©tudes",
+        title: "Interpr√©ter une int√©grale comme une aire",
+        prompt: "Cr√©er un sujet de renforcement o√π les √©l√®ves d√©terminent une primitive simple puis calculent une int√©grale et l‚Äôinterpr√®tent comme une aire.",
+        expectations: ["Primitives usuelles par lecture inverse.", "Int√©grale F(b) - F(a).", "Approximation possible par rectangles."],
+        supports: ["D√©bit, √©nergie, surface sous une courbe.", "Calculatrice ou tableur."]
+      },
+      {
+        level: "Terminale professionnelle",
+        levelKey: "terminale",
+        family: "Programme compl√©mentaire",
+        theme: "Logarithme n√©p√©rien, exponentielle, complexes, produit scalaire",
+        group: "Poursuite d‚Äô√©tudes",
+        title: "Renforcer une notion pour poursuite d‚Äô√©tudes",
+        prompt: "Tirer un module compl√©mentaire et construire une mini-s√©quence pr√©parant √† une poursuite d‚Äô√©tudes: ln/exp, nombres complexes ou produit scalaire.",
+        expectations: ["Propri√©t√©s op√©ratoires adapt√©es au module.", "Repr√©sentation graphique ou g√©om√©trique.", "Application courte et progressive."],
+        supports: ["√âtude de fonction, signal, vecteurs, plan complexe.", "Grapheur ou logiciel de g√©om√©trie."]
+      },
+      {
+        level: "Tous niveaux",
+        levelKey: "transversal",
+        family: "Automatismes",
+        theme: "Calcul, grandeurs, fonctions, g√©om√©trie",
+        group: "Rituel transversal",
+        title: "Construire une s√©rie de questions flash",
+        prompt: "Pr√©parer 8 √† 10 questions flash reli√©es √† un th√®me du programme et destin√©es √† installer des proc√©dures automatiques utiles en r√©solution de probl√®mes.",
+        expectations: ["Calcul mental ou √©crit rapide.", "Pourcentages, fractions, puissances, √©quations simples ou unit√©s.", "Progression de difficult√© et correction imm√©diate."],
+        supports: ["Diaporama, ardoises, QCM, tableur de r√©ponses.", "Th√®me principal du sujet tir√© ou s√©ance de r√©activation."]
+      }
+    ];
+
+    const levelLabels = [
+      ["all", "Tous les niveaux"],
+      ["seconde", "Seconde"],
+      ["premiere", "Premi√®re"],
+      ["terminale", "Terminale"],
+      ["transversal", "Transversal"]
+    ];
+
+    const themeLabels = [
+      "Statistique et probabilit√©s",
+      "Alg√®bre - Analyse",
+      "G√©om√©trie",
+      "Algorithmique",
+      "Automatismes",
+      "Programme compl√©mentaire"
+    ];
+
+    const state = {
+      level: "all",
+      themes: new Set(themeLabels),
+      current: null
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    function makeFilters() {
+      $("levelFilters").innerHTML = levelLabels.map(([value, label]) => `
+        <label class="option">
+          <input type="radio" name="level" value="${value}" ${value === state.level ? "checked" : ""}>
+          <span>${label}</span>
+        </label>
+      `).join("");
+
+      $("themeFilters").innerHTML = themeLabels.map((label) => `
+        <label class="option">
+          <input type="checkbox" value="${label}" ${state.themes.has(label) ? "checked" : ""}>
+          <span>${label}</span>
+        </label>
+      `).join("");
+
+      document.querySelectorAll('input[name="level"]').forEach((input) => {
+        input.addEventListener("change", () => {
+          state.level = input.value;
+          updateCount();
+        });
+      });
+
+      document.querySelectorAll('#themeFilters input[type="checkbox"]').forEach((input) => {
+        input.addEventListener("change", () => {
+          if (input.checked) state.themes.add(input.value);
+          else state.themes.delete(input.value);
+          updateCount();
+        });
+      });
+    }
+
+    function filteredSubjects() {
+      return subjects.filter((subject) => {
+        const levelOk = state.level === "all" || subject.levelKey === state.level;
+        const themeOk = state.themes.has(subject.family);
+        return levelOk && themeOk;
+      });
+    }
+
+    function updateCount() {
+      $("subjectCount").textContent = filteredSubjects().length;
+    }
+
+    function pickSubject() {
+      const pool = filteredSubjects();
+      if (!pool.length) {
+        $("title").textContent = "Aucun sujet disponible";
+        $("theme").innerHTML = '<span class="empty">R√©active au moins une famille ou choisis un autre niveau.</span>';
+        $("prompt").textContent = "Le filtre actuel ne contient aucun sujet.";
+        $("badges").innerHTML = "";
+        $("expectations").innerHTML = "";
+        $("supports").innerHTML = "";
+        $("source").innerHTML = "";
+        state.current = null;
+        return;
+      }
+
+      let next = pool[Math.floor(Math.random() * pool.length)];
+      if (pool.length > 1 && state.current) {
+        while (next === state.current) {
+          next = pool[Math.floor(Math.random() * pool.length)];
+        }
+      }
+      state.current = next;
+      renderSubject(next);
+    }
+
+    function renderSubject(subject) {
+      const source = sources[subject.levelKey];
+      $("badges").innerHTML = `
+        <span class="badge">${subject.level}</span>
+        <span class="badge group">${subject.group}</span>
+        <span class="badge source">${subject.family}</span>
+      `;
+      $("title").textContent = subject.title;
+      $("theme").textContent = subject.theme;
+      $("prompt").textContent = subject.prompt;
+      $("expectations").innerHTML = subject.expectations.map((item) => `<li>${item}</li>`).join("");
+      $("supports").innerHTML = subject.supports.map((item) => `<li>${item}</li>`).join("");
+      if (source) {
+        $("source").innerHTML = `R√©f√©rence locale: <a href="${source.url}" target="_blank" rel="noreferrer">${source.label}</a>.`;
+      } else {
+        $("source").textContent = "R√©f√©rence: automatismes transversaux pr√©sents dans les programmes.";
+      }
+    }
+
+    async function copySubject() {
+      if (!state.current) pickSubject();
+      if (!state.current) return;
+      const subject = state.current;
+      const text = [
+        `Niveau: ${subject.level}`,
+        `Famille: ${subject.family}`,
+        `Th√®me: ${subject.theme}`,
+        `Groupe: ${subject.group}`,
+        `Sujet: ${subject.title}`,
+        subject.prompt,
+        "",
+        `Attendus: ${subject.expectations.join(" ; ")}`,
+        `Support possible: ${subject.supports.join(" ; ")}`
+      ].join("\n");
+
+      try {
+        await navigator.clipboard.writeText(text);
+        $("copyButton").textContent = "Sujet copi√©";
+        setTimeout(() => $("copyButton").textContent = "Copier le sujet", 1200);
+      } catch {
+        alert(text);
+      }
+    }
+
+    $("drawButton").addEventListener("click", pickSubject);
+    $("copyButton").addEventListener("click", copySubject);
+    makeFilters();
+    updateCount();
+    pickSubject();
+  </script>
+</body>
+</html>
